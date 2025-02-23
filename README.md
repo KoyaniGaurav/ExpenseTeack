@@ -1,2 +1,3 @@
 # ExpenseTeack
 Track the all expenses with the add , delete and edit option.
+People can use it for to track thrie expense with the easiest way and people also can add their expenses and record will store with the date and some what description of it, and if any condition occure in future so user/people can do two more operations which is delete and edit , to delete user have nothing to do only press the button and give confirm for delete that record and to edit the recore press the button of edit the chgange the record according new information of description , cost and catagory of the expense. 
