@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Sign Up{% endblock title %}
+{% block main_content %}
+<div class="login-container">
+    <div class="logo">
+        {% load static %}
+        <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo-img">
+    </div>
+    <h2>Sign-Up Expanza</h2>
+    <p class="sub-heading">Create an account to track your expenses</p>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="input-group">
+            <label for="name">Username</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="input-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="login-btn">Sign Up</button>
+    </form>
+</div>
+{% endblock main_content %}

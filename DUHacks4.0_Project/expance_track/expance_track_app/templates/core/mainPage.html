@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page - Expense Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <style>
+        body{
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        }
+    </style>
+</head>
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-md-6 offset-md-3">
+            <div class="expense-card">
+                <div class="welcome-section text-center p-4">
+                    <h2 id="user-display">Welcome, To Expanza</h2>
+                    <p>Track your expenses easily and manage your finances effectively.</p>
+                </div>                              
+                <div class="row justify-content-center mt-4">
+                    <div class="col-md-8 text-center">
+                        <a href= "{% url 'add_expence' %}" class="btn btn-success btn-lg mx-2"><i class="fas fa-plus-circle"></i> Add Expense</a>
+                    </div>
+                </div>
+                <!-- Sorting Options -->
+                <div class="d-flex justify-content-between mt-3">
+                </div>
+
+                <div class="table-container mt-3">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Expense Name</th>
+                                <th>Category</th>
+                                <th>Amount (₹)</th>
+                                <th>Date</th>
+                                <th>Delete</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for expence in expence %}
+                            <tr>
+                                <td>{{ expence.expance_name }}</td>
+                                <td>{{ expence.category }}</td>
+                                <td>₹{{ expence.cost }}</td>
+                                <td>{{ expence.created_at|date:"d M Y" }}</td> 
+                                <td>
+                                    <a href="{% url 'delete_expence' expence.id %}" class = "btn btn-danger">Delete</a>
+
+                                </td>                                
+                                <td>
+                                    <a href="{% url 'edit_expence' expence.id %}" class="btn btn-primary">Edit</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center">No expenses found.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+                    <p class="text-danger"><strong>Total Expense: ₹{{ total_expence }}</strong></p>                                   
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
+<script>
+// Search Expenses
+document.getElementById("searchInput").addEventListener("input", function() {
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#expenseTable tr");
+    rows.forEach(row => {
+        let text = row.textContent.toLowerCase();
+        row.style.display = text.includes(filter) ? "" : "none";
+    });
+});
+
+// Calculate Total Expense
+function calculateTotalExpense() {
+    let rows = document.querySelectorAll("#expenseTable tr");
+    let total = 0;
+    rows.forEach(row => {
+        let amount = parseFloat(row.children[1].textContent.replace("$", "")) || 0;
+        total += amount;
+    });
+    document.getElementById("totalAmount").textContent = `$${total.toFixed(2)}`;
+};
